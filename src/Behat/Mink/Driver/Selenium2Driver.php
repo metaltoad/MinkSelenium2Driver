@@ -79,9 +79,18 @@ class Selenium2Driver extends CoreDriver
      * a new WebDriver.
      */
     public function __clone() {
+      if($this->isStarted()) {
+        $oldSize  = $this->wdSession->window('current')->getSize();
+      }
+
       $this->wdSession = NULL;
       $this->started = false;
       $this->setWebDriver(new WebDriver($this->webDriver->getURL()));
+
+      if($oldSize) {
+        $this->start();
+        $this->wdSession->window('current')->postSize($oldSize);
+      }
     }
 
     /**
