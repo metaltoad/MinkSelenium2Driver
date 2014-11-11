@@ -400,9 +400,11 @@ class Selenium2Driver extends CoreDriver
     public function getCookie($name)
     {
         $cookies = $this->wdSession->getAllCookies();
-        foreach ($cookies as $cookie) {
-            if ($cookie['name'] === $name) {
-                return urldecode($cookie['value']);
+        if (!empty($cookies)) {
+            foreach ($cookies as $cookie) {
+                if ($cookie['name'] === $name) {
+                    return urldecode($cookie['value']);
+                }
             }
         }
     }
